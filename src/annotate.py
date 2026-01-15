@@ -1,3 +1,4 @@
+
 cat > src/annotate.py << 'EOF'
 from __future__ import annotations
 
