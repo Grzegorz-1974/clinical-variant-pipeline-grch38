@@ -33,3 +33,17 @@ clinical-variant-pipeline-grch38/
 This project is intended for **research and educational purposes only**.
 It is **not** a certified clinical pipeline and must **not** be used for
 clinical diagnosis, treatment decisions, or patient care.
+
+## ClinVar Annotation (GRCh38)
+
+This pipeline annotates variants with ClinVar using the official NCBI VCF
+(tabix-indexed, GRCh38).
+
+For demonstration purposes, example variants may not be present in ClinVar,
+resulting in empty ClinVar fields. This is expected behavior and documented
+to ensure transparency of the workflow.
+
+ClinVar fields added:
+- CLNSIG (clinical significance)
+- CLNDN (disease name)
+- ALLELEID (ClinVar allele ID)
