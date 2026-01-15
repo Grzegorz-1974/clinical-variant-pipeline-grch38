@@ -28,3 +28,8 @@ clinical-variant-pipeline-grch38/
 ├── docs/
 ├── requirements.txt
 └── README.md
+
+## Disclaimer
+This project is intended for **research and educational purposes only**.
+It is **not** a certified clinical pipeline and must **not** be used for
+clinical diagnosis, treatment decisions, or patient care.
