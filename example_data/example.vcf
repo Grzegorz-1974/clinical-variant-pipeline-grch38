@@ -1,0 +1,18 @@
+##fileformat=VCFv4.2
+##contig=<ID=1,length=248956422>
+##INFO=<ID=DP,Number=1,Type=Integer,Description="Total Depth">
+##INFO=<ID=AF,Number=A,Type=Float,Description="Allele Frequency">
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO
+1	1000000	.	A	G	60	PASS	DP=120;AF=0.12
+1	1000020	.	C	T	50	PASS	DP=90;AF=0.05
+1	1000050	.	G	A	99	PASS	DP=200;AF=0.40
+
+Add small example VCF for demo runs
+
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+
+python -m src.annotate --vcf example_data/example.vcf --out results/variants_annotated.tsv
+
+head -n 5 results/variants_annotated.tsv
