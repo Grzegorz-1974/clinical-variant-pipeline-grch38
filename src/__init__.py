@@ -1,4 +1,4 @@
-Initialize src package
+
 
 from __future__ import annotations
 
@@ -84,5 +84,4 @@ def main() -> None:
 if __name__ == "__main__":
     main()
 
-Add VCF to TSV export step (annotate)
 
