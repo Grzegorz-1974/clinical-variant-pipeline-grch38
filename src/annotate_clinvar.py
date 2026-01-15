@@ -1,4 +1,4 @@
-cat > src/annotate_clinvar.py << 'EOF'
+
 import argparse
 import subprocess
 import pandas as pd
