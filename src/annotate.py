@@ -1,4 +1,3 @@
-cat > src/annotate.py << 'EOF'
 import argparse
 import os
 import pandas as pd
