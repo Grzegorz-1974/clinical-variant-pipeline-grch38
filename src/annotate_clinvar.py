@@ -1,4 +1,3 @@
-
 import argparse
 import subprocess
 import pandas as pd
@@ -17,11 +16,10 @@ def parse_info(info: str) -> dict:
 
 def query_clinvar_one_variant(chrom: str, pos: int, ref: str, alt: str, clinvar_vcf: str):
     """
-    Query ClinVar VCF (tabix-indexed) at chrom:pos and try to match REF/ALT.
-    Returns (CLNSIG, CLNDN, ALLELEID) or (None, None, None) if not found.
+    Query ClinVar VCF (tabix-indexed) at chrom:pos and match REF/ALT.
+    Returns (CLNSIG, CLNDN, ALLELEID) or (None, None, None).
     """
     region = f"{chrom}:{pos}-{pos}"
-
     try:
         out = subprocess.check_output(
             ["tabix", clinvar_vcf, region],
@@ -43,7 +41,6 @@ def query_clinvar_one_variant(chrom: str, pos: int, ref: str, alt: str, clinvar_
 
         _chrom, _pos, _id, _ref, _alts, _qual, _filt, info = fields[:8]
 
-        # Match REF exactly and ALT among comma-separated ALTs
         if _ref != ref:
             continue
         if alt not in _alts.split(","):
@@ -61,17 +58,17 @@ def query_clinvar_one_variant(chrom: str, pos: int, ref: str, alt: str, clinvar_
 
 def main():
     ap = argparse.ArgumentParser(description="Annotate TSV with ClinVar (GRCh38) using tabix.")
-    ap.add_argument("--tsv", required=True, help="Input TSV (from src/annotate.py)")
-    ap.add_argument("--clinvar", required=True, help="ClinVar VCF.gz (GRCh38) with .tbi index")
+    ap.add_argument("--tsv", required=True, help="Input TSV from VCF parsing step")
+    ap.add_argument("--clinvar", required=True, help="ClinVar GRCh38 VCF.gz (tabix indexed)")
     ap.add_argument("--out", required=True, help="Output TSV with ClinVar columns")
     args = ap.parse_args()
 
     df = pd.read_csv(args.tsv, sep="\t")
 
-    # Ensure expected columns exist
-    for col in ["chrom", "pos", "ref", "alt"]:
-        if col not in df.columns:
-            raise ValueError(f"Missing required column in TSV: {col}")
+    required = ["chrom", "pos", "ref", "alt"]
+    missing = [c for c in required if c not in df.columns]
+    if missing:
+        raise ValueError(f"Missing required TSV columns: {missing}")
 
     clnsig_list = []
     clndn_list = []
@@ -105,4 +102,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-EOF
