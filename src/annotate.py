@@ -1,4 +1,3 @@
-
 cat > src/annotate.py << 'EOF'
 from __future__ import annotations
 
@@ -17,7 +16,7 @@ def norm_chrom(chrom: str) -> str:
 
 def main() -> None:
     ap = argparse.ArgumentParser(
-        description="Parse a VCF (GRCh38) and export a variant table (TSV)."
+        description="Parse a VCF and export a variant table (TSV)."
     )
     ap.add_argument("--vcf", required=True, help="Input VCF (.vcf or .vcf.gz)")
     ap.add_argument("--out", required=True, help="Output TSV path")
@@ -27,7 +26,6 @@ def main() -> None:
         raise FileNotFoundError(f"VCF not found: {args.vcf}")
 
     vcf = VCF(args.vcf)
-
     rows = []
 
     for rec in vcf:
@@ -45,23 +43,19 @@ def main() -> None:
         af = info.get("AF")
 
         for alt in alts:
-            rows.append(
-                {
-                    "chrom": chrom,
-                    "pos": pos,
-                    "ref": ref,
-                    "alt": alt,
-                    "qual": qual,
-                    "filter": filt,
-                    "dp": dp,
-                    "af": af,
-                }
-            )
+            rows.append({
+                "chrom": chrom,
+                "pos": pos,
+                "ref": ref,
+                "alt": alt,
+                "qual": qual,
+                "filter": filt,
+                "dp": dp,
+                "af": af,
+            })
 
     df = pd.DataFrame(rows)
-    df = df[
-        ["chrom", "pos", "ref", "alt", "qual", "filter", "dp", "af"]
-    ]
+    df = df[["chrom", "pos", "ref", "alt", "qual", "filter", "dp", "af"]]
 
     os.makedirs(os.path.dirname(args.out) or ".", exist_ok=True)
     df.to_csv(args.out, sep="\t", index=False)
