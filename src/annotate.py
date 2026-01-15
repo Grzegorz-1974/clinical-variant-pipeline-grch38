@@ -1,5 +1,4 @@
-cat > src/annotate.py << 'EOF'
-
+cat << 'EOF' > src/annotate.py
 import argparse
 import os
 import pandas as pd
@@ -65,3 +64,4 @@ def main() -> None:
 if __name__ == "__main__":
     main()
 EOF
+
